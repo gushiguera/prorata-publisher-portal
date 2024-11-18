@@ -6,7 +6,9 @@ const axios = require('axios').default;
 
 async function getServerSideData() {
   try {
-    const { data } = await axios.get(`http://localhost:8080/api/v1/publishers`);
+    const { data } = await axios.get(
+      `https://prorata-publisher-api-366300393677.us-central1.run.app/api/v1/publishers`
+    );
     return data.data;
   } catch (e) {
     console.log(e);

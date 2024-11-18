@@ -25,6 +25,10 @@ pnpm install
 pnpm dev
 ```
 
+## Vercel Deploy
+
+https://prorata-publisher-portal-vpzq.vercel.app/
+
 ## Using Backend NodeJS API
 
 API deployed to GCP

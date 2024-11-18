@@ -1,22 +1,25 @@
 import { Tabs, TabsContent, TabsList, TabsTrigger } from '@/components/ui/tabs';
 import { File, PlusCircle } from 'lucide-react';
 import { Button } from '@/components/ui/button';
-import { ProductsTable } from './products-table';
-import { getProducts } from '@/lib/db';
+import { PublisherCard } from '@/components/ui/publisher-card';
+const axios = require('axios').default;
 
-export default async function ProductsPage(
-  props: {
-    searchParams: Promise<{ q: string; offset: string }>;
+async function getServerSideData() {
+  try {
+    const { data } = await axios.get(`http://localhost:8080/api/v1/publishers`);
+    return data.data;
+  } catch (e) {
+    console.log(e);
   }
-) {
-  const searchParams = await props.searchParams;
-  const search = searchParams.q ?? '';
-  const offset = searchParams.offset ?? 0;
-  const { products, newOffset, totalProducts } = await getProducts(
-    search,
-    Number(offset)
-  );
+}
+export interface PublisherProps {
+  name: string;
+  image_url: string;
+  description: string;
+}
 
+export default async function ProductsPage() {
+  const data = await getServerSideData();
   return (
     <Tabs defaultValue="all">
       <div className="flex items-center">
@@ -43,12 +46,14 @@ export default async function ProductsPage(
           </Button>
         </div>
       </div>
-      <TabsContent value="all">
-        <ProductsTable
-          products={products}
-          offset={newOffset ?? 0}
-          totalProducts={totalProducts}
-        />
+      <TabsContent value="all" className="flex flex-wrap flex-1 justify-start">
+        {data?.map((card: PublisherProps) => (
+          <PublisherCard
+            name={card.name}
+            image_url={card.image_url}
+            description={card.description}
+          />
+        ))}
       </TabsContent>
     </Tabs>
   );

@@ -8,6 +8,10 @@ export default {
       {
         protocol: 'https',
         hostname: '*.public.blob.vercel-storage.com'
+      },
+      {
+        protocol: 'https',
+        hostname: 'picsum.photos'
       }
     ]
   }
